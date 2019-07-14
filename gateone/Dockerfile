@@ -10,4 +10,6 @@ RUN apt-get update && apt-get install wget curl vim openssh-client iputils-ping 
 	&& echo "source <(kubectl completion bash)" >> ~/.bashrc \
 	&& echo "alias k=kubectl" >> ~/.bashrc \
 	&& echo "complete -F __start_kubectl k" >> ~/.bashrc \
-	&& apt-get clean all
+	&& echo "source /etc/bash_completion" >> ~/.bashrc \
+	&& apt-get clean all 
+
