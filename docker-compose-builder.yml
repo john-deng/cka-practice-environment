@@ -3,23 +3,34 @@ services:
   gateone:
     build: ./gateone
     ports:
-    - "8080:8000"
+    - "8000"
     hostname: kubectl
     networks:
-    - frontend
+    - web
     volumes:
     - ssh_key:/root/.ssh/
     - kube_config:/root/.kube/
     restart: always
+    labels:
+    - "traefik.enable=true"
+    - "traefik.backend=gateone"
+    - "traefik.port=8000"
+    - "traefik.frontend.rule=Host:gateone.apps.hidevops.io"
   lab:
     build: ./lab
     ports:
-    - "80:80"
+    - "80"
     networks:
-    - frontend
+    - web
     restart: always
+    labels:
+    - "traefik.enable=true"
+    - "traefik.backend=lab"
+    - "traefik.port=80"
+    - "traefik.frontend.rule=Host:cka.apps.hidevops.io"
 networks:
-  frontend: {}
+    web:
+      external: true
 volumes:
   ssh_key: {}
   kube_config: {}
